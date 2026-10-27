@@ -1,0 +1,349 @@
+/* ============================= */
+/* Memory Match Puzzle           */
+/* ============================= */
+
+.memory-puzzle {
+  max-width: 700px;
+
+  margin: 28px auto 0;
+
+  padding: 25px;
+
+  background: rgba(255, 255, 255, 0.24);
+
+  border: 1px dashed #8d8067;
+}
+
+.memory-instruction {
+  margin-top: 0;
+
+  line-height: 1.7;
+}
+
+/* ============================= */
+/* Status                        */
+/* ============================= */
+
+.memory-status {
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 24px;
+
+  margin: 22px 0 18px;
+
+  font-weight: 700;
+}
+
+.memory-status-item {
+  padding: 9px 14px;
+
+  background: var(--paper-light);
+
+  border: 1px solid #b3a586;
+
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================= */
+/* Card Grid                     */
+/* ============================= */
+
+.memory-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  gap: 14px;
+
+  width: 100%;
+
+  max-width: 600px;
+
+  margin: 28px auto 10px;
+
+  perspective: 1200px;
+}
+
+/* ============================= */
+/* Memory Card                   */
+/* ============================= */
+
+.memory-card {
+  display: block;
+
+  position: relative;
+
+  width: 100%;
+
+  min-width: 0;
+
+  aspect-ratio: 1 / 1;
+
+  padding: 0;
+
+  background: transparent;
+
+  border: none;
+
+  cursor: pointer;
+
+  perspective: 900px;
+}
+
+/*
+  This display:block is important.
+
+  Previously this was a span using
+  inline layout, which could collapse
+  around the question mark instead of
+  filling the entire card.
+*/
+
+.memory-card-inner {
+  display: block;
+
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  transform-style: preserve-3d;
+
+  transition: transform 0.42s cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.memory-card.flipped .memory-card-inner,
+.memory-card.matched .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* ============================= */
+/* Card Faces                    */
+/* ============================= */
+
+.memory-card-face {
+  position: absolute;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 12px;
+
+  overflow: hidden;
+
+  backface-visibility: hidden;
+
+  -webkit-backface-visibility: hidden;
+
+  border: 2px solid var(--charcoal);
+
+  box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.22);
+}
+
+/* ============================= */
+/* Back of Card                  */
+/* ============================= */
+
+.memory-card-back {
+  background: var(--charcoal);
+
+  color: var(--gold);
+
+  font-family: "Special Elite", cursive;
+}
+
+.memory-card-back::before {
+  content: "?";
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 58%;
+  height: 58%;
+
+  border: 3px solid var(--gold);
+
+  border-radius: 50%;
+
+  color: var(--gold);
+
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+
+  line-height: 1;
+}
+
+/* ============================= */
+/* Front of Card                 */
+/* ============================= */
+
+.memory-card-front {
+  flex-direction: column;
+
+  gap: 8px;
+
+  background: var(--paper-light);
+
+  color: var(--ink);
+
+  transform: rotateY(180deg);
+
+  font-family: "Courier Prime", monospace;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  text-align: center;
+}
+
+.memory-card-symbol {
+  display: block;
+
+  color: var(--red);
+
+  font-family: "Special Elite", cursive;
+
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+
+  line-height: 1;
+}
+
+.memory-card-word {
+  display: block;
+
+  max-width: 100%;
+
+  overflow-wrap: anywhere;
+
+  font-size: clamp(0.72rem, 1.8vw, 1rem);
+
+  letter-spacing: 0.03em;
+}
+
+/* ============================= */
+/* Hover / Focus                 */
+/* ============================= */
+
+.memory-card:not(.matched):hover .memory-card-back {
+  background: var(--red-dark);
+}
+
+.memory-card:not(.matched):hover {
+  transform: translateY(-2px);
+}
+
+.memory-card:focus-visible {
+  outline: 3px solid var(--gold);
+
+  outline-offset: 4px;
+}
+
+/* ============================= */
+/* Matched Card                  */
+/* ============================= */
+
+.memory-card.matched {
+  cursor: default;
+}
+
+.memory-card.matched .memory-card-front {
+  color: var(--green);
+
+  background: rgba(79, 106, 72, 0.16);
+
+  border-color: var(--green);
+}
+
+.memory-card.matched .memory-card-symbol {
+  color: var(--green);
+}
+
+.memory-card.matched .memory-card-front::after {
+  content: "MATCHED";
+
+  position: absolute;
+
+  right: 7px;
+  bottom: 6px;
+
+  color: var(--green);
+
+  font-family: "Special Elite", cursive;
+
+  font-size: 0.52rem;
+
+  letter-spacing: 1px;
+
+  transform: rotate(-5deg);
+}
+
+/* ============================= */
+/* Message                       */
+/* ============================= */
+
+.memory-message {
+  min-height: 24px;
+
+  margin: 20px 0 0;
+
+  color: var(--red);
+
+  font-weight: 700;
+
+  line-height: 1.5;
+}
+
+/* ============================= */
+/* Tablet                        */
+/* ============================= */
+
+@media (max-width: 650px) {
+  .memory-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    max-width: 470px;
+  }
+}
+
+/* ============================= */
+/* Mobile                        */
+/* ============================= */
+
+@media (max-width: 460px) {
+  .memory-puzzle {
+    padding: 18px 9px;
+  }
+
+  .memory-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 8px;
+  }
+
+  .memory-status {
+    gap: 8px;
+  }
+
+  .memory-status-item {
+    flex: 1 1 130px;
+  }
+
+  .memory-card-face {
+    padding: 7px;
+  }
+}

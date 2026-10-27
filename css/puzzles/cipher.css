@@ -1,0 +1,192 @@
+/* ============================= */
+/* Cipher Puzzle                 */
+/* ============================= */
+
+.cipher-puzzle {
+  max-width: 560px;
+
+  margin: 28px auto 0;
+
+  padding: 25px;
+
+  background: rgba(255, 255, 255, 0.28);
+
+  border: 1px dashed #8d8067;
+}
+
+.cipher-instruction {
+  margin-top: 0;
+
+  line-height: 1.7;
+}
+
+.cipher-shift-box {
+  width: fit-content;
+
+  margin: 22px auto 15px;
+
+  padding: 7px 13px;
+
+  border: 2px solid var(--red);
+
+  color: var(--red);
+
+  font-family: "Special Elite", cursive;
+
+  font-weight: 700;
+
+  transform: rotate(-2deg);
+}
+
+.cipher-text {
+  margin: 20px auto 28px;
+
+  padding: 22px 18px;
+
+  background: var(--charcoal);
+
+  color: var(--paper-light);
+
+  border: 3px double var(--paper-dark);
+
+  font-family: "Courier Prime", monospace;
+
+  font-size: clamp(1.5rem, 5vw, 2.4rem);
+
+  font-weight: 700;
+
+  letter-spacing: 0.28em;
+
+  text-align: center;
+
+  overflow-wrap: anywhere;
+}
+
+.cipher-answer-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  font-family: "Special Elite", cursive;
+
+  font-size: 0.85rem;
+
+  text-align: left;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+}
+
+.cipher-answer-input {
+  display: block;
+
+  width: 100%;
+
+  padding: 12px 13px;
+
+  background: rgba(255, 255, 255, 0.65);
+
+  color: var(--ink);
+
+  border: 1px solid #a99b7d;
+
+  border-bottom: 3px solid var(--charcoal);
+
+  outline: none;
+
+  font-family: "Courier Prime", monospace;
+
+  font-size: 1rem;
+
+  text-transform: uppercase;
+}
+
+.cipher-answer-input:focus {
+  border-bottom-color: var(--red);
+}
+
+.cipher-answer-input.cipher-wrong {
+  border: 2px solid var(--red);
+
+  background: rgba(122, 31, 31, 0.08);
+}
+
+/* Submit button */
+
+#submitCipherBtn {
+  margin-top: 18px;
+
+  padding: 12px 23px;
+
+  background: var(--red);
+
+  color: var(--paper-light);
+
+  border: 1px solid var(--red-dark);
+
+  font-family: "Special Elite", cursive;
+
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  box-shadow: 2px 3px 0 var(--red-dark);
+
+  transition:
+    transform 0.12s ease,
+    background-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+#submitCipherBtn:hover:not(:disabled) {
+  background: var(--red-dark);
+
+  transform: translate(-1px, -1px);
+
+  box-shadow: 3px 4px 0 var(--red-dark);
+}
+
+#submitCipherBtn:active:not(:disabled) {
+  transform: translate(1px, 1px);
+
+  box-shadow: 1px 1px 0 var(--red-dark);
+}
+
+#submitCipherBtn:disabled {
+  opacity: 0.45;
+
+  cursor: default;
+}
+
+.cipher-message {
+  min-height: 24px;
+
+  margin-bottom: 0;
+
+  color: var(--red);
+
+  font-weight: 700;
+
+  line-height: 1.5;
+}
+
+/* ============================= */
+/* Cipher Mobile                 */
+/* ============================= */
+
+@media (max-width: 500px) {
+  .cipher-puzzle {
+    padding: 20px 14px;
+  }
+
+  .cipher-text {
+    padding: 18px 10px;
+
+    letter-spacing: 0.18em;
+  }
+
+  #submitCipherBtn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,427 @@
+/* ============================= */
+/* Logic Puzzle                  */
+/* ============================= */
+
+.logic-puzzle {
+  max-width: 700px;
+
+  margin: 28px auto 0;
+
+  padding: 26px;
+
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.07), rgba(0, 0, 0, 0.02)), #eee2c9;
+
+  border: 1px solid #b5a583;
+
+  box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.14);
+
+  text-align: left;
+}
+
+.logic-instruction {
+  max-width: 620px;
+
+  margin: 0 auto 25px;
+
+  line-height: 1.7;
+
+  text-align: center;
+}
+
+/* ============================= */
+/* Witness Notes                 */
+/* ============================= */
+
+.logic-clues {
+  position: relative;
+
+  max-width: 620px;
+
+  margin: 0 auto 30px;
+
+  padding: 24px 24px 21px;
+
+  background: #f5ebd5;
+
+  border: 1px solid #bcae90;
+
+  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.14);
+
+  transform: rotate(-0.35deg);
+}
+
+.logic-clues::after {
+  content: "EVIDENCE";
+
+  position: absolute;
+
+  top: 11px;
+  right: 13px;
+
+  padding: 4px 7px;
+
+  color: rgba(122, 31, 31, 0.75);
+
+  border: 2px solid rgba(122, 31, 31, 0.7);
+
+  font-family: "Special Elite", cursive;
+
+  font-size: 0.63rem;
+
+  letter-spacing: 1.4px;
+
+  transform: rotate(7deg);
+}
+
+.logic-note-heading {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  margin-bottom: 16px;
+
+  padding-right: 80px;
+}
+
+.logic-note-heading span {
+  color: var(--red);
+
+  font-family: "Special Elite", cursive;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.logic-note-heading small {
+  color: #685f51;
+
+  font-size: 0.72rem;
+
+  font-style: italic;
+}
+
+.logic-clue-list {
+  margin: 0;
+
+  padding-left: 26px;
+}
+
+.logic-clue-list li {
+  margin-bottom: 13px;
+
+  padding-left: 5px;
+
+  line-height: 1.55;
+}
+
+.logic-clue-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* ============================= */
+/* Grid Wrapper                  */
+/* ============================= */
+
+.logic-grid-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  padding: 8px 2px 14px;
+}
+
+.logic-grid {
+  display: grid;
+
+  min-width: 530px;
+
+  margin: 0 auto;
+
+  border: 2px solid #282828;
+
+  background: #f1e7d4;
+}
+
+/* ============================= */
+/* Grid Headers                  */
+/* ============================= */
+
+.logic-grid-header,
+.logic-grid-corner,
+.logic-grid-person {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 54px;
+
+  padding: 7px;
+
+  border-right: 1px solid #504a40;
+  border-bottom: 1px solid #504a40;
+
+  font-weight: 700;
+
+  text-align: center;
+}
+
+.logic-grid-corner {
+  background: #2a2926;
+
+  color: #eee2ca;
+
+  font-family: "Special Elite", cursive;
+
+  font-size: 0.76rem;
+
+  letter-spacing: 1px;
+}
+
+.logic-grid-header {
+  background: #d8c9ab;
+
+  color: #211f1b;
+
+  font-size: 0.8rem;
+
+  line-height: 1.2;
+
+  writing-mode: horizontal-tb;
+
+  transform: none;
+
+  white-space: normal;
+
+  overflow-wrap: anywhere;
+}
+
+.logic-grid-person {
+  justify-content: flex-start;
+
+  padding-left: 12px;
+
+  background: #ded0b5;
+
+  font-size: 0.84rem;
+
+  line-height: 1.2;
+}
+
+/* ============================= */
+/* Interactive Cells             */
+/* ============================= */
+
+.logic-grid-cell {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  min-height: 54px;
+
+  padding: 0;
+
+  background: rgba(255, 255, 255, 0.32);
+
+  color: var(--ink);
+
+  border: 0;
+  border-right: 1px solid #6d6557;
+  border-bottom: 1px solid #6d6557;
+
+  font-family: "Courier Prime", monospace;
+
+  font-size: 1.45rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.logic-grid-cell:hover {
+  background: rgba(154, 122, 58, 0.18);
+}
+
+.logic-grid-cell:active {
+  transform: scale(0.94);
+}
+
+.logic-grid-cell.mark-no {
+  color: #922525;
+
+  background: rgba(122, 31, 31, 0.08);
+}
+
+.logic-grid-cell.mark-yes {
+  color: #35603a;
+
+  background: rgba(79, 106, 72, 0.17);
+
+  font-size: 1.5rem;
+}
+
+.logic-grid-cell.logic-wrong-cell {
+  animation: logic-wrong-shake 0.35s ease;
+
+  background: rgba(122, 31, 31, 0.17);
+}
+
+/* ============================= */
+/* Controls                      */
+/* ============================= */
+
+.logic-controls {
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 13px;
+
+  margin-top: 20px;
+}
+
+#submitLogicBtn,
+#clearLogicBtn {
+  padding: 11px 17px;
+
+  font-family: "Special Elite", cursive;
+
+  cursor: pointer;
+}
+
+#submitLogicBtn {
+  background: var(--red-dark);
+
+  color: var(--paper-light);
+
+  border: 1px solid #351010;
+
+  box-shadow: 2px 3px 0 #351010;
+}
+
+#submitLogicBtn:hover {
+  background: var(--red);
+}
+
+#clearLogicBtn {
+  background: transparent;
+
+  color: var(--ink);
+
+  border: 1px solid #6e6454;
+}
+
+#clearLogicBtn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* ============================= */
+/* Message                       */
+/* ============================= */
+
+.logic-message {
+  min-height: 25px;
+
+  margin: 20px 0 0;
+
+  color: var(--red);
+
+  font-weight: 700;
+
+  line-height: 1.5;
+
+  text-align: center;
+}
+
+.logic-message.logic-success {
+  color: var(--green);
+}
+
+/* ============================= */
+/* Animation                     */
+/* ============================= */
+
+@keyframes logic-wrong-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-4px);
+  }
+
+  50% {
+    transform: translateX(4px);
+  }
+
+  75% {
+    transform: translateX(-3px);
+  }
+}
+
+/* ============================= */
+/* Mobile                        */
+/* ============================= */
+
+@media (max-width: 650px) {
+  .logic-puzzle {
+    padding: 20px 10px;
+  }
+
+  .logic-clues {
+    padding: 22px 16px 18px;
+
+    transform: none;
+  }
+
+  .logic-note-heading {
+    padding-right: 70px;
+  }
+
+  .logic-grid {
+    min-width: 455px;
+  }
+
+  .logic-grid-header,
+  .logic-grid-corner,
+  .logic-grid-person,
+  .logic-grid-cell {
+    min-height: 50px;
+  }
+
+  .logic-grid-header {
+    font-size: 0.72rem;
+  }
+
+  .logic-grid-person {
+    font-size: 0.78rem;
+  }
+
+  .logic-grid-cell {
+    font-size: 1.25rem;
+  }
+
+  .logic-controls {
+    flex-direction: column;
+  }
+
+  #submitLogicBtn,
+  #clearLogicBtn {
+    width: 100%;
+  }
+}

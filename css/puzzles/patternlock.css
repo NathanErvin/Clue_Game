@@ -1,0 +1,333 @@
+/* ============================= */
+/* Pattern Lock Puzzle           */
+/* ============================= */
+
+.patternlock-puzzle {
+  max-width: 680px;
+
+  margin: 28px auto 0;
+
+  padding: 25px;
+
+  background: rgba(255, 255, 255, 0.24);
+
+  border: 1px dashed #8d8067;
+}
+
+.patternlock-instruction {
+  margin-top: 0;
+
+  line-height: 1.7;
+}
+
+/* ============================= */
+/* Status                        */
+/* ============================= */
+
+.patternlock-status {
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 14px;
+
+  margin: 22px 0;
+}
+
+.patternlock-status-item {
+  min-width: 120px;
+
+  padding: 9px 14px;
+
+  background: var(--paper-light);
+
+  border: 1px solid #b3a586;
+
+  font-weight: 700;
+
+  box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================= */
+/* Case Display                  */
+/* ============================= */
+
+.patternlock-display {
+  max-width: 520px;
+
+  margin: 22px auto;
+
+  padding: 18px 20px;
+
+  background: var(--paper-light);
+
+  border: 1px solid #b3a586;
+
+  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.patternlock-display-label {
+  margin: 0 0 8px;
+
+  color: var(--red);
+
+  font-family: "Special Elite", cursive;
+
+  font-size: 0.78rem;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.patternlock-display-text {
+  min-height: 25px;
+
+  margin: 0;
+
+  font-weight: 700;
+
+  line-height: 1.5;
+}
+
+/* ============================= */
+/* Pattern Grid                  */
+/* ============================= */
+
+.patternlock-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+
+  max-width: 430px;
+
+  margin: 28px auto 20px;
+}
+
+/* ============================= */
+/* Pattern Button                */
+/* ============================= */
+
+.patternlock-button {
+  position: relative;
+
+  aspect-ratio: 1 / 1;
+
+  padding: 10px;
+
+  background: var(--paper-light);
+
+  color: var(--ink);
+
+  border: 2px solid var(--charcoal);
+
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.17);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.12s ease,
+    background-color 0.12s ease,
+    color 0.12s ease,
+    border-color 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.patternlock-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  border-color: var(--red);
+}
+
+.patternlock-button:focus-visible {
+  outline: 3px solid var(--gold);
+
+  outline-offset: 3px;
+}
+
+.patternlock-button:disabled {
+  cursor: default;
+}
+
+/* ============================= */
+/* Button Symbol                 */
+/* ============================= */
+
+.patternlock-symbol {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--red);
+
+  font-family: "Special Elite", cursive;
+
+  font-size: clamp(1.65rem, 5vw, 2.4rem);
+
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+.patternlock-name {
+  display: block;
+
+  font-family: "Courier Prime", monospace;
+
+  font-size: clamp(0.68rem, 1.8vw, 0.9rem);
+
+  font-weight: 700;
+
+  line-height: 1.2;
+}
+
+/* ============================= */
+/* Flash State                   */
+/* ============================= */
+
+.patternlock-button.active {
+  background: var(--gold);
+
+  color: var(--charcoal);
+
+  border-color: var(--red-dark);
+
+  transform: scale(1.06);
+
+  box-shadow:
+    0 0 0 4px rgba(154, 122, 58, 0.22),
+    3px 5px 8px rgba(0, 0, 0, 0.22);
+}
+
+.patternlock-button.active .patternlock-symbol {
+  color: var(--charcoal);
+}
+
+/* ============================= */
+/* Correct Feedback              */
+/* ============================= */
+
+.patternlock-button.correct {
+  background: rgba(79, 106, 72, 0.18);
+
+  border-color: var(--green);
+}
+
+/* ============================= */
+/* Wrong Feedback                */
+/* ============================= */
+
+.patternlock-button.wrong {
+  background: rgba(122, 31, 31, 0.18);
+
+  border-color: var(--red);
+
+  animation: patternlockWrongShake 0.3s ease;
+}
+
+@keyframes patternlockWrongShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-4px);
+  }
+
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+/* ============================= */
+/* Start Button                  */
+/* ============================= */
+
+.patternlock-controls {
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 20px;
+}
+
+#startPatternBtn {
+  padding: 11px 20px;
+
+  background: var(--red);
+
+  color: var(--paper-light);
+
+  border: 1px solid var(--red-dark);
+
+  box-shadow: 2px 3px 0 var(--red-dark);
+
+  font-family: "Special Elite", cursive;
+
+  font-size: 0.95rem;
+
+  cursor: pointer;
+}
+
+#startPatternBtn:hover:not(:disabled) {
+  background: var(--red-dark);
+}
+
+#startPatternBtn:disabled {
+  opacity: 0.45;
+
+  cursor: default;
+}
+
+/* ============================= */
+/* Message                       */
+/* ============================= */
+
+.patternlock-message {
+  min-height: 24px;
+
+  margin: 20px 0 0;
+
+  color: var(--red);
+
+  font-weight: 700;
+
+  line-height: 1.5;
+}
+
+/* ============================= */
+/* Mobile                        */
+/* ============================= */
+
+@media (max-width: 500px) {
+  .patternlock-puzzle {
+    padding: 18px 9px;
+  }
+
+  .patternlock-grid {
+    gap: 8px;
+  }
+
+  .patternlock-button {
+    padding: 7px;
+  }
+
+  .patternlock-status {
+    gap: 8px;
+  }
+
+  .patternlock-status-item {
+    flex: 1 1 120px;
+  }
+
+  #startPatternBtn {
+    width: 100%;
+  }
+}

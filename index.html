@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Clue Game</title>
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="stylesheet" href="css/puzzles/cipher.css" />
+    <link rel="stylesheet" href="css/puzzles/wordsearch.css" />
+    <link rel="stylesheet" href="css/puzzles/logic.css" />
+    <link rel="stylesheet" href="css/puzzles/memory.css" />
+    <link rel="stylesheet" href="css/puzzles/codebreaker.css" />
+    <link rel="stylesheet" href="css/puzzles/jigsaw.css" />
+    <link rel="stylesheet" href="css/puzzles/patternlock.css" />
+    <link rel="stylesheet" href="css/puzzles/evidencesort.css" />
+  </head>
+
+  <body>
+    <header>
+      <div class="logo">Clue Game</div>
+    </header>
+
+    <main>
+      <!-- ============================= -->
+      <!-- Hero                          -->
+      <!-- ============================= -->
+
+      <section class="hero">
+        <h1>Solve a Mystery</h1>
+
+        <p>
+          Solve a Clue-inspired puzzle game with suspects, possible items, and
+          locations we both know. One option from each category will secretly
+          become the solution.
+        </p>
+      </section>
+
+      <!-- ============================= -->
+      <!-- Case Setup                    -->
+      <!-- ============================= -->
+
+      <section class="setup-section">
+        <h2>Case Setup</h2>
+
+        <p class="setup-note">
+          Choose how large you want the case to be. The suspects, items, and
+          locations will be randomly selected when the investigation begins.
+        </p>
+
+        <div class="setup-grid">
+          <div class="setup-card">
+            <h3>Suspects</h3>
+
+            <label for="suspectCountSelect"> Number of suspects </label>
+
+            <select id="suspectCountSelect">
+              <option value="3">3 Suspects</option>
+              <option value="4">4 Suspects</option>
+              <option value="5" selected>5 Suspects</option>
+              <option value="6">6 Suspects</option>
+              <option value="7">7 Suspects</option>
+              <option value="8">8 Suspects</option>
+              <option value="9">9 Suspects</option>
+              <option value="10">10 Suspects</option>
+            </select>
+
+            <p class="setup-card-description">
+              A random group will be selected from the available people.
+            </p>
+          </div>
+
+          <div class="setup-card">
+            <h3>Items</h3>
+
+            <label for="itemCountSelect"> Number of items </label>
+
+            <select id="itemCountSelect">
+              <option value="3">3 Items</option>
+              <option value="4">4 Items</option>
+              <option value="5" selected>5 Items</option>
+              <option value="6">6 Items</option>
+              <option value="7">7 Items</option>
+              <option value="8">8 Items</option>
+              <option value="9">9 Items</option>
+              <option value="10">10 Items</option>
+            </select>
+
+            <p class="setup-card-description">
+              A random set of possible mystery items will be selected.
+            </p>
+          </div>
+
+          <div class="setup-card">
+            <h3>Locations</h3>
+
+            <label for="locationCountSelect"> Number of locations </label>
+
+            <select id="locationCountSelect">
+              <option value="3">3 Locations</option>
+              <option value="4">4 Locations</option>
+              <option value="5" selected>5 Locations</option>
+              <option value="6">6 Locations</option>
+              <option value="7">7 Locations</option>
+              <option value="8">8 Locations</option>
+              <option value="9">9 Locations</option>
+              <option value="10">10 Locations</option>
+            </select>
+
+            <p class="setup-card-description">
+              A random set of possible locations will be selected.
+            </p>
+          </div>
+        </div>
+
+        <p id="setupMessage" class="setup-message" aria-live="polite"></p>
+
+        <div class="start-game-wrapper">
+          <button id="startGameBtn" type="button">Start Investigation</button>
+        </div>
+      </section>
+
+      <!-- ============================= -->
+      <!-- Investigation                 -->
+      <!-- ============================= -->
+
+      <section id="gameScreen" class="game-section hidden">
+        <div class="investigation-header">
+          <div>
+            <p class="case-label">ACTIVE INVESTIGATION</p>
+
+            <h2>Evidence Board</h2>
+          </div>
+
+          <div class="case-progress">
+            <span id="clueProgress"> Clues Solved: 0 </span>
+          </div>
+        </div>
+
+        <p class="investigation-note">
+          Solve puzzles to uncover evidence and eliminate innocent suspects,
+          items, and locations.
+        </p>
+
+        <!-- ============================= -->
+        <!-- Crime Scene Briefing          -->
+        <!-- ============================= -->
+
+        <section
+          id="caseBriefing"
+          class="case-briefing"
+          aria-label="Case briefing"
+        >
+          <div class="case-briefing-top">
+            <div>
+              <p class="case-briefing-eyebrow">INVESTIGATIVE REPORT</p>
+
+              <p class="case-briefing-number">
+                CASE
+                <strong id="caseNumber">000</strong>
+              </p>
+            </div>
+
+            <span class="case-briefing-stamp"> OPEN CASE </span>
+          </div>
+
+          <h3 id="caseTitle">The Unexplained Incident</h3>
+
+          <div class="case-briefing-meta">
+            <span>
+              INCIDENT TIME
+              <strong id="caseTime">Unknown</strong>
+            </span>
+
+            <span>
+              STATUS
+              <strong>Under Investigation</strong>
+            </span>
+          </div>
+
+          <div id="caseStory" class="case-story"></div>
+
+          <div class="case-parameters">
+            <div class="case-parameter">
+              <span>Suspects</span>
+              <strong id="caseSuspectCount">0</strong>
+            </div>
+
+            <div class="case-parameter">
+              <span>Possible Items</span>
+              <strong id="caseItemCount">0</strong>
+            </div>
+
+            <div class="case-parameter">
+              <span>Locations</span>
+              <strong id="caseLocationCount">0</strong>
+            </div>
+          </div>
+
+          <div class="case-objective">
+            <span>INVESTIGATOR OBJECTIVE</span>
+
+            <p>
+              Determine <strong>who</strong> was responsible,
+              <strong>what</strong> was involved, and <strong>where</strong> the
+              incident occurred.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============================= -->
+        <!-- Evidence Board                -->
+        <!-- ============================= -->
+
+        <div class="evidence-board">
+          <section class="evidence-column">
+            <div class="evidence-column-heading">
+              <span class="evidence-number">01</span>
+              <h3>Suspects</h3>
+            </div>
+
+            <div id="suspectEvidence" class="evidence-list"></div>
+          </section>
+
+          <section class="evidence-column">
+            <div class="evidence-column-heading">
+              <span class="evidence-number">02</span>
+              <h3>Items</h3>
+            </div>
+
+            <div id="itemEvidence" class="evidence-list"></div>
+          </section>
+
+          <section class="evidence-column">
+            <div class="evidence-column-heading">
+              <span class="evidence-number">03</span>
+              <h3>Locations</h3>
+            </div>
+
+            <div id="locationEvidence" class="evidence-list"></div>
+          </section>
+        </div>
+
+        <!-- ============================= -->
+        <!-- Current Puzzle                -->
+        <!-- ============================= -->
+
+        <section class="clue-area">
+          <p class="case-label">CURRENT PUZZLE</p>
+
+          <h3 id="currentPuzzleTitle">Investigation Puzzle</h3>
+
+          <p id="currentPuzzleDescription">
+            Solve the puzzle to uncover the next piece of evidence.
+          </p>
+
+          <!-- Cipher -->
+
+          <div id="cipherPuzzle" class="cipher-puzzle hidden">
+            <p class="cipher-instruction">
+              Each letter has been shifted forward in the alphabet. Shift the
+              letters backward to find the hidden word. (E.g. Shift 2: C → A, V
+              → T.)
+            </p>
+
+            <div class="cipher-shift-box">
+              Shift:
+              <strong id="cipherShift">0</strong>
+            </div>
+
+            <div
+              id="cipherText"
+              class="cipher-text"
+              aria-label="Encrypted word"
+            ></div>
+
+            <label for="cipherAnswer" class="cipher-answer-label">
+              Decoded Word
+            </label>
+
+            <input
+              id="cipherAnswer"
+              class="cipher-answer-input"
+              type="text"
+              autocomplete="off"
+              placeholder="Enter decoded word"
+            />
+
+            <button id="submitCipherBtn" type="button">Check Answer</button>
+
+            <p id="cipherMessage" class="cipher-message" aria-live="polite"></p>
+          </div>
+
+          <!-- Word Search -->
+
+          <div id="wordSearchPuzzle" class="word-search-puzzle hidden">
+            <p class="word-search-instruction">
+              Find all three hidden investigation words. Drag across the letters
+              horizontally, vertically, or diagonally.
+            </p>
+
+            <div class="mystery-word-search-board">
+              <svg
+                id="mysteryWordSearchOverlay"
+                class="mystery-word-search-overlay"
+                aria-hidden="true"
+              >
+                <g id="mysteryFoundHighlights"></g>
+
+                <line
+                  id="mysterySelectionHighlight"
+                  class="mystery-selection-highlight"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="0"
+                ></line>
+              </svg>
+
+              <div
+                id="mysteryWordSearchGrid"
+                class="mystery-word-search-grid"
+                aria-label="Word search puzzle"
+              ></div>
+            </div>
+
+            <div class="word-search-targets">
+              <p class="word-search-target-heading">Words to Find</p>
+
+              <div
+                id="wordSearchTargetList"
+                class="word-search-target-list"
+              ></div>
+            </div>
+
+            <p
+              id="wordSearchMessage"
+              class="word-search-message"
+              aria-live="polite"
+            ></p>
+          </div>
+
+          <!-- Logic Grid -->
+
+          <div id="logicPuzzle" class="logic-puzzle hidden">
+            <p class="logic-instruction">
+              Use the witness notes together to determine where each person was.
+              Some notes only become useful when combined with other evidence.
+              Click a square to cycle between blank, ✕, and ✓.
+            </p>
+
+            <div class="logic-clues">
+              <div class="logic-note-heading">
+                <span>WITNESS NOTES</span>
+                <small>Cross-reference all statements</small>
+              </div>
+
+              <ol id="logicClueList" class="logic-clue-list"></ol>
+            </div>
+
+            <div class="logic-grid-wrapper">
+              <div
+                id="logicGrid"
+                class="logic-grid"
+                aria-label="Logic deduction grid"
+              ></div>
+            </div>
+
+            <div class="logic-controls">
+              <button id="submitLogicBtn" type="button">Check Deduction</button>
+
+              <button id="clearLogicBtn" type="button">Clear Grid</button>
+            </div>
+
+            <p id="logicMessage" class="logic-message" aria-live="polite"></p>
+          </div>
+
+          <!-- Memory Match -->
+
+          <div id="memoryPuzzle" class="memory-puzzle hidden">
+            <p class="memory-instruction">
+              Match each pair of evidence cards. Remember where each clue is
+              hidden and clear the board to unlock the next piece of evidence.
+            </p>
+
+            <div class="memory-status">
+              <div class="memory-status-item">
+                Matches:
+                <strong id="memoryMatchCount">0 / 0</strong>
+              </div>
+
+              <div class="memory-status-item">
+                Attempts:
+                <strong id="memoryAttemptCount">0</strong>
+              </div>
+            </div>
+
+            <div
+              id="memoryGrid"
+              class="memory-grid"
+              aria-label="Memory matching cards"
+            ></div>
+
+            <p id="memoryMessage" class="memory-message" aria-live="polite"></p>
+          </div>
+
+          <!-- Code Breaker -->
+
+          <div id="codebreakerPuzzle" class="codebreaker-puzzle hidden">
+            <p class="codebreaker-instruction">
+              Crack the four-digit evidence code. Every digit is different.
+              After each guess, the case file will tell you how close you are.
+            </p>
+
+            <div class="codebreaker-note">
+              <strong>Feedback Key</strong>
+
+              <p>
+                <b>Exact</b> means a digit is correct and in the correct
+                position. <b>Misplaced</b> means the digit belongs in the code
+                but is in the wrong position.
+              </p>
+            </div>
+
+            <div id="codebreakerInputs" class="codebreaker-inputs">
+              <input
+                class="codebreaker-digit"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                aria-label="Code digit 1"
+              />
+
+              <input
+                class="codebreaker-digit"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                aria-label="Code digit 2"
+              />
+
+              <input
+                class="codebreaker-digit"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                aria-label="Code digit 3"
+              />
+
+              <input
+                class="codebreaker-digit"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                aria-label="Code digit 4"
+              />
+            </div>
+
+            <div class="codebreaker-controls">
+              <button id="submitCodebreakerBtn" type="button">Test Code</button>
+
+              <button id="clearCodebreakerBtn" type="button">Clear</button>
+            </div>
+
+            <div class="codebreaker-history">
+              <p class="codebreaker-history-heading">Previous Attempts</p>
+
+              <div
+                id="codebreakerHistoryList"
+                class="codebreaker-history-list"
+              ></div>
+            </div>
+
+            <p
+              id="codebreakerMessage"
+              class="codebreaker-message"
+              aria-live="polite"
+            ></p>
+          </div>
+
+          <!-- Jigsaw -->
+
+          <div id="jigsawPuzzle" class="jigsaw-puzzle hidden">
+            <p class="jigsaw-instruction">
+              The case document has been torn apart. Reconstruct it by placing
+              each fragment in its correct position. Drag pieces onto the board,
+              or select a piece and then select a space.
+            </p>
+
+            <div class="jigsaw-status">
+              Pieces Recovered:
+              <strong id="jigsawPieceCount">0 / 12</strong>
+            </div>
+
+            <div class="jigsaw-workspace">
+              <div class="jigsaw-board-wrapper">
+                <p class="jigsaw-board-label">Damaged Document</p>
+
+                <div
+                  id="jigsawBoard"
+                  class="jigsaw-board"
+                  aria-label="Jigsaw reconstruction board"
+                ></div>
+              </div>
+
+              <div class="jigsaw-tray-wrapper">
+                <p class="jigsaw-tray-label">Document Fragments</p>
+
+                <div
+                  id="jigsawTray"
+                  class="jigsaw-tray"
+                  aria-label="Unplaced jigsaw pieces"
+                ></div>
+              </div>
+            </div>
+
+            <p id="jigsawMessage" class="jigsaw-message" aria-live="polite"></p>
+          </div>
+
+          <!-- Pattern Lock -->
+
+          <div id="patternlockPuzzle" class="patternlock-puzzle hidden">
+            <p class="patternlock-instruction">
+              The evidence terminal is protected by a visual lock. Watch the
+              sequence carefully, then reproduce it in the same order. Each
+              successful round adds another symbol.
+            </p>
+
+            <div class="patternlock-status">
+              <div class="patternlock-status-item">
+                Round:
+                <strong id="patternRound">1 / 4</strong>
+              </div>
+
+              <div class="patternlock-status-item">
+                Sequence:
+                <strong id="patternLength">3</strong>
+              </div>
+            </div>
+
+            <div class="patternlock-display">
+              <p class="patternlock-display-label">Security Terminal</p>
+
+              <p id="patternDisplayText" class="patternlock-display-text">
+                Press Start Sequence when ready.
+              </p>
+            </div>
+
+            <div
+              id="patternlockGrid"
+              class="patternlock-grid"
+              aria-label="Pattern lock controls"
+            ></div>
+
+            <div class="patternlock-controls">
+              <button id="startPatternBtn" type="button">Start Sequence</button>
+            </div>
+
+            <p
+              id="patternlockMessage"
+              class="patternlock-message"
+              aria-live="polite"
+            ></p>
+          </div>
+
+          <!-- Evidence Sort -->
+
+          <div id="evidenceSortPuzzle" class="evidence-sort-puzzle hidden">
+            <p class="evidence-sort-instruction">
+              The investigation files have been mixed together. Sort every
+              evidence card into the correct category, then submit the file for
+              review.
+            </p>
+
+            <div class="evidence-sort-file">
+              <span class="evidence-sort-file-label">
+                CLASSIFICATION TASK
+              </span>
+
+              <h3
+                id="evidenceSortScenarioTitle"
+                class="evidence-sort-file-title"
+              >
+                Evidence Classification
+              </h3>
+
+              <p
+                id="evidenceSortScenarioDescription"
+                class="evidence-sort-file-description"
+              ></p>
+            </div>
+
+            <div class="evidence-sort-status">
+              <div class="evidence-sort-status-item">
+                Filed:
+                <strong id="evidenceSortFiledCount">0 / 9</strong>
+              </div>
+
+              <div class="evidence-sort-status-item">
+                Remaining:
+                <strong id="evidenceSortRemainingCount">9</strong>
+              </div>
+            </div>
+
+            <div class="evidence-sort-tray-wrapper">
+              <p class="evidence-sort-section-heading">Unsorted Evidence</p>
+
+              <div
+                id="evidenceSortTray"
+                class="evidence-sort-tray"
+                aria-label="Unsorted evidence cards"
+              ></div>
+            </div>
+
+            <p class="evidence-sort-section-heading">Case File Categories</p>
+
+            <div
+              id="evidenceSortCategories"
+              class="evidence-sort-categories"
+            ></div>
+
+            <div class="evidence-sort-controls">
+              <button id="checkEvidenceSortBtn" type="button">
+                Review Classification
+              </button>
+
+              <button id="resetEvidenceSortBtn" type="button">
+                Return All Evidence
+              </button>
+            </div>
+
+            <p
+              id="evidenceSortMessage"
+              class="evidence-sort-message"
+              aria-live="polite"
+            ></p>
+          </div>
+
+          <!-- Revealed Evidence -->
+
+          <div id="revealedClue" class="revealed-clue hidden"></div>
+        </section>
+
+        <!-- ============================= -->
+        <!-- Final Accusation              -->
+        <!-- ============================= -->
+
+        <section id="readyForAccusation" class="ready-for-accusation hidden">
+          <div id="accusationPrompt">
+            <p class="case-label">FINAL ACCUSATION</p>
+
+            <span class="accusation-stamp"> CASE READY </span>
+
+            <h3>Only Three Possibilities Remain</h3>
+
+            <p class="accusation-intro">
+              Every other lead has been eliminated. Review the final suspect,
+              item, and location, then make your accusation.
+            </p>
+
+            <div class="accusation-summary" aria-label="Final accusation">
+              <article class="accusation-card">
+                <span class="accusation-card-number">01</span>
+                <span class="accusation-card-label">Suspect</span>
+                <strong id="accusationSuspect">Unknown</strong>
+              </article>
+
+              <article class="accusation-card">
+                <span class="accusation-card-number">02</span>
+                <span class="accusation-card-label">Item</span>
+                <strong id="accusationItem">Unknown</strong>
+              </article>
+
+              <article class="accusation-card">
+                <span class="accusation-card-number">03</span>
+                <span class="accusation-card-label">Location</span>
+                <strong id="accusationLocation">Unknown</strong>
+              </article>
+            </div>
+
+            <p id="accusationStatement" class="accusation-statement"></p>
+
+            <button id="makeAccusationBtn" type="button">
+              Make Final Accusation
+            </button>
+          </div>
+
+          <!-- ============================= -->
+          <!-- Case Solved                   -->
+          <!-- ============================= -->
+
+          <div id="caseSolvedResult" class="case-solved-result hidden">
+            <span class="case-solved-stamp"> CASE SOLVED </span>
+
+            <h3>Mystery Solved</h3>
+
+            <p id="caseSolvedStatement" class="case-solved-statement"></p>
+
+            <div class="case-solved-stats">
+              <span> Evidence Reviewed </span>
+
+              <strong id="caseSolvedClueCount">0</strong>
+            </div>
+
+            <!-- ============================= -->
+            <!-- Culprit Statement             -->
+            <!-- ============================= -->
+
+            <section
+              id="culpritStatement"
+              class="culprit-statement"
+              aria-label="Statement from the guilty suspect"
+            >
+              <div class="culprit-statement-heading">
+                <p class="case-label">RECORDED STATEMENT</p>
+
+                <span class="culprit-statement-stamp">
+                  INTERVIEW TRANSCRIPT
+                </span>
+              </div>
+
+              <div class="culprit-statement-layout">
+                <div class="culprit-profile-card" aria-hidden="true">
+                  <div class="culprit-profile-photo">
+                    <div class="culprit-profile-head"></div>
+
+                    <div class="culprit-profile-shoulders"></div>
+                  </div>
+
+                  <strong id="culpritName">Unknown</strong>
+
+                  <span>GUILTY PARTY</span>
+                </div>
+
+                <div class="culprit-transcript">
+                  <div class="culprit-transcript-meta">
+                    <span>
+                      SUBJECT
+                      <strong id="culpritTranscriptName">Unknown</strong>
+                    </span>
+
+                    <span>
+                      MOTIVE
+                      <strong id="culpritMotive">Unknown</strong>
+                    </span>
+                  </div>
+
+                  <blockquote
+                    id="culpritQuote"
+                    class="culprit-quote"
+                  ></blockquote>
+                </div>
+              </div>
+            </section>
+
+            <button id="newCaseBtn" type="button">Start a New Case</button>
+          </div>
+        </section>
+
+        <div class="case-actions">
+          <button id="resetGameBtn" type="button">Abandon Case</button>
+        </div>
+
+        <!-- ============================= -->
+        <!-- Hidden Envelope III Clue      -->
+        <!-- ============================= -->
+
+        <div
+          id="abandonedCaseSecret"
+          class="abandoned-case-secret hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="abandonedCaseSecretTitle"
+        >
+          <div class="abandoned-case-secret-card">
+            <p class="abandoned-case-secret-eyebrow">CASE ABANDONED</p>
+
+            <p class="abandoned-case-secret-mark">III</p>
+
+            <h2 id="abandonedCaseSecretTitle">Something was left behind.</h2>
+
+            <div class="abandoned-case-secret-divider"></div>
+
+            <p class="abandoned-case-secret-text">
+              You chose the right case to leave unsolved.
+            </p>
+
+            <p class="abandoned-case-secret-label">THIRD NUMBER</p>
+
+            <p
+              id="abandonedCaseSecretNumber"
+              class="abandoned-case-secret-number"
+            >
+              5
+            </p>
+
+            <button
+              id="leaveAbandonedCaseBtn"
+              class="leave-abandoned-case-btn"
+              type="button"
+            >
+              Close the Case
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Mystery Game</p>
+    </footer>
+
+    <script src="js/puzzles/registry.js"></script>
+
+    <script src="js/puzzles/cipher.js"></script>
+    <script src="js/puzzles/wordsearch.js"></script>
+    <script src="js/puzzles/logic.js"></script>
+    <script src="js/puzzles/memory.js"></script>
+    <script src="js/puzzles/codebreaker.js"></script>
+    <script src="js/puzzles/jigsaw.js"></script>
+    <script src="js/puzzles/patternlock.js"></script>
+    <script src="js/puzzles/evidencesort.js"></script>
+
+    <script src="js/game.js"></script>
+  </body>
+</html>

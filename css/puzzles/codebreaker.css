@@ -1,0 +1,297 @@
+/* ============================= */
+/* Code Breaker Puzzle           */
+/* ============================= */
+
+.codebreaker-puzzle {
+  max-width: 680px;
+
+  margin: 28px auto 0;
+
+  padding: 25px;
+
+  background: rgba(255, 255, 255, 0.24);
+
+  border: 1px dashed #8d8067;
+}
+
+.codebreaker-instruction {
+  margin-top: 0;
+
+  line-height: 1.7;
+}
+
+/* ============================= */
+/* Case Note                     */
+/* ============================= */
+
+.codebreaker-note {
+  max-width: 520px;
+
+  margin: 22px auto;
+
+  padding: 18px 20px;
+
+  background: var(--paper-light);
+
+  border: 1px solid #b3a586;
+
+  box-shadow: 2px 3px 8px rgba(0, 0, 0, 0.12);
+
+  line-height: 1.6;
+
+  text-align: left;
+}
+
+.codebreaker-note strong {
+  color: var(--red);
+
+  font-family: "Special Elite", cursive;
+
+  letter-spacing: 1px;
+}
+
+/* ============================= */
+/* Code Inputs                   */
+/* ============================= */
+
+.codebreaker-inputs {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  margin: 25px 0 20px;
+}
+
+.codebreaker-digit {
+  width: 58px;
+  height: 64px;
+
+  padding: 0;
+
+  background: var(--paper-light);
+
+  color: var(--ink);
+
+  border: 2px solid var(--charcoal);
+
+  border-bottom: 4px solid var(--charcoal);
+
+  outline: none;
+
+  font-family: "Courier Prime", monospace;
+
+  font-size: 1.8rem;
+
+  font-weight: 700;
+
+  text-align: center;
+}
+
+.codebreaker-digit:focus {
+  border-color: var(--red);
+
+  border-bottom-color: var(--red);
+}
+
+/* Remove number spinners */
+
+.codebreaker-digit::-webkit-inner-spin-button,
+.codebreaker-digit::-webkit-outer-spin-button {
+  margin: 0;
+
+  -webkit-appearance: none;
+}
+
+.codebreaker-digit {
+  appearance: textfield;
+}
+
+/* ============================= */
+/* Controls                      */
+/* ============================= */
+
+.codebreaker-controls {
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 12px;
+
+  margin-top: 20px;
+}
+
+#submitCodebreakerBtn,
+#clearCodebreakerBtn {
+  padding: 11px 18px;
+
+  font-family: "Special Elite", cursive;
+
+  font-size: 0.95rem;
+
+  cursor: pointer;
+}
+
+#submitCodebreakerBtn {
+  background: var(--red);
+
+  color: var(--paper-light);
+
+  border: 1px solid var(--red-dark);
+
+  box-shadow: 2px 3px 0 var(--red-dark);
+}
+
+#submitCodebreakerBtn:hover:not(:disabled) {
+  background: var(--red-dark);
+}
+
+#clearCodebreakerBtn {
+  background: transparent;
+
+  color: var(--ink);
+
+  border: 1px dashed #8d8067;
+}
+
+#clearCodebreakerBtn:hover:not(:disabled) {
+  color: var(--red);
+
+  border-color: var(--red);
+}
+
+#submitCodebreakerBtn:disabled,
+#clearCodebreakerBtn:disabled {
+  opacity: 0.45;
+
+  cursor: default;
+}
+
+/* ============================= */
+/* Guess History                 */
+/* ============================= */
+
+.codebreaker-history {
+  max-width: 560px;
+
+  margin: 28px auto 0;
+}
+
+.codebreaker-history-heading {
+  margin-bottom: 10px;
+
+  color: var(--red);
+
+  font-family: "Special Elite", cursive;
+
+  font-size: 0.8rem;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.codebreaker-history-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+.codebreaker-history-entry {
+  display: grid;
+
+  grid-template-columns: 110px 1fr;
+
+  gap: 16px;
+
+  align-items: center;
+
+  padding: 10px 12px;
+
+  background: rgba(255, 255, 255, 0.48);
+
+  border-left: 3px solid var(--charcoal);
+
+  text-align: left;
+}
+
+.codebreaker-history-code {
+  font-size: 1.2rem;
+
+  font-weight: 700;
+
+  letter-spacing: 0.18em;
+}
+
+.codebreaker-history-feedback {
+  color: #554d40;
+
+  line-height: 1.45;
+}
+
+.codebreaker-history-entry.solved {
+  border-left-color: var(--green);
+
+  background: rgba(79, 106, 72, 0.14);
+}
+
+.codebreaker-history-entry.solved .codebreaker-history-code {
+  color: var(--green);
+}
+
+/* ============================= */
+/* Message                       */
+/* ============================= */
+
+.codebreaker-message {
+  min-height: 24px;
+
+  margin: 20px 0 0;
+
+  color: var(--red);
+
+  font-weight: 700;
+
+  line-height: 1.5;
+}
+
+/* ============================= */
+/* Mobile                        */
+/* ============================= */
+
+@media (max-width: 500px) {
+  .codebreaker-puzzle {
+    padding: 18px 9px;
+  }
+
+  .codebreaker-inputs {
+    gap: 7px;
+  }
+
+  .codebreaker-digit {
+    width: 48px;
+    height: 56px;
+
+    font-size: 1.5rem;
+  }
+
+  .codebreaker-controls {
+    flex-direction: column;
+  }
+
+  #submitCodebreakerBtn,
+  #clearCodebreakerBtn {
+    width: 100%;
+  }
+
+  .codebreaker-history-entry {
+    grid-template-columns: 1fr;
+
+    gap: 5px;
+  }
+}
